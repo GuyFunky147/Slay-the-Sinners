@@ -1,3 +1,5 @@
+import time
+
 def typewriter(text, speed=0.05):
     
     for character in text:

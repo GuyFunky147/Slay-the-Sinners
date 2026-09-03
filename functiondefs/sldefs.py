@@ -1,3 +1,6 @@
+import json
+import os
+
 def save_game(player):
     
     filename = input("Which of the three save slots would you like to save to?")

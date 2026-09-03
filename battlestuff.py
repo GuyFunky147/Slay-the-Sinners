@@ -1,3 +1,5 @@
+from helperfunctions import typewriter, say, choice
+
 def attack(attacker, defender):
 
     damage = max(
