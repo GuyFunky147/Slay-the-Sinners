@@ -1,7 +1,7 @@
 from spells import SPELLS
 from weapons import WEAPONS
 from enemies import ENEMIES
-from armors import armors
+from armors import ARMOR
 from battlestuff import attack, attack_with_weapon, get_player_defense, inventory_menu, cast_spell, speak, battle
 from functiondefs.helperfunctions import typewriter, say, choice
 from functiondefs.storyfunctions import awaken_relics, can_resist_reset
