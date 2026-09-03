@@ -1,0 +1,15 @@
+Slay-the-Sinners/
+    ├── equippables/
+    │   ├── __init__.py
+    │   ├── armors.py
+    │   ├── spells.py
+    │   └── weapons.py
+    ├── functiondefs/
+    │   ├── __init__.py
+    │   ├── helperfunctions.py
+    │   ├── sldefs.py
+    │   └── storyfunctions.py
+    ├── battlestuff.py
+    ├── enemies.py
+    ├── main.py
+    └── readme
