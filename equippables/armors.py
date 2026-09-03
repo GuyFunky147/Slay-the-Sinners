@@ -11,6 +11,10 @@ ARMOR = {
         "defense": 8
     },
 
+    "King's Garment": {
+        "defense": 10
+    },
+
     "Sacrificial Garb": {
         "defense": 1,
         "fades": True,
