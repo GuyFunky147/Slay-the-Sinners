@@ -12,4 +12,4 @@ Slay-the-Sinners/
     ├── battle_stuff.py
     ├── enemies.py
     ├── main.py
-    └── readme
+    └── README.md
