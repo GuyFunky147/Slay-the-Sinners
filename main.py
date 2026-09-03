@@ -2,10 +2,10 @@ from equippables.spells import SPELLS
 from equippables.weapons import WEAPONS
 from enemies import ENEMIES
 from equippables.armors import ARMOR
-from battlestuff import attack, attack_with_weapon, get_player_defense, inventory_menu, cast_spell, speak, battle
-from functiondefs.helperfunctions import typewriter, say, choice
-from functiondefs.storyfunctions import awaken_relics, can_resist_reset
-from functiondefs.sldefs import save_game, load_game
+from battle_stuff import attack, attack_with_weapon, get_player_defense, inventory_menu, cast_spell, speak, battle
+from function_defs.helper_functions import typewriter, say, choice
+from function_defs.story_functions import awaken_relics, can_resist_reset
+from function_defs.save_load_defs import save_game, load_game
 
 seed = 0000000
 

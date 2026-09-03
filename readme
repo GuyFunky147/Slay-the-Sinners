@@ -4,12 +4,12 @@ Slay-the-Sinners/
     │   ├── armors.py
     │   ├── spells.py
     │   └── weapons.py
-    ├── functiondefs/
+    ├── function_defs/
     │   ├── __init__.py
-    │   ├── helperfunctions.py
-    │   ├── sldefs.py
-    │   └── storyfunctions.py
-    ├── battlestuff.py
+    │   ├── helper_functions.py
+    │   ├── save_load_defs.py
+    │   └── story_functions.py
+    ├── battle_stuff.py
     ├── enemies.py
     ├── main.py
     └── readme
