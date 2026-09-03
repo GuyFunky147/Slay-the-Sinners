@@ -1,4 +1,7 @@
+from main import Enemy
+
 ENEMIES = {
+
     "Lesser Sinner": {
         "hp": 20,
         "atk": 5,

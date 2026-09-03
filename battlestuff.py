@@ -1,4 +1,8 @@
 from helperfunctions import typewriter, say, choice
+from equippables.armors import ARMOR
+from main import Player, Enemy
+from equippables.weapons import WEAPONS
+from equippables.spells import SPELLS
 
 def attack(attacker, defender):
 

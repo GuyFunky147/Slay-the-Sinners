@@ -1,13 +1,13 @@
-from spells import SPELLS
-from weapons import WEAPONS
+from equippables.spells import SPELLS
+from equippables.weapons import WEAPONS
 from enemies import ENEMIES
-from armors import ARMOR
+from equippables.armors import ARMOR
 from battlestuff import attack, attack_with_weapon, get_player_defense, inventory_menu, cast_spell, speak, battle
 from functiondefs.helperfunctions import typewriter, say, choice
 from functiondefs.storyfunctions import awaken_relics, can_resist_reset
 from functiondefs.sldefs import save_game, load_game
 
-seed = 0
+seed = 0000000
 
 ceremonial_knife = False
 sacrificial_garb = False
