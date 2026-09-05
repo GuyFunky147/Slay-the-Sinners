@@ -1,5 +1,6 @@
 import json
 import os
+from main import player, Player, seed, holis, cognifis, elpis, ceremonial_knife, sacrificial_garb, black_flame, altar2go
 
 def save_game(player):
     
