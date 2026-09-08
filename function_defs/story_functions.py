@@ -1,3 +1,5 @@
+from main import player
+
 def awaken_relics(player):
 
     if hasattr(player, "killed_holis"):

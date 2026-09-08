@@ -1,5 +1,3 @@
-from main import Enemy
-
 ENEMIES = {
 
     "Lesser Sinner": {
