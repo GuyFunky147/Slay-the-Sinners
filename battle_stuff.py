@@ -56,27 +56,56 @@ def use_health_potion(player, inventory):
     typewriter("Recovered 25 HP.")
 
 
-def cast_heal_spell(player):
+def use_mana_potion(player, inventory):
+    """Use a mana potion to restore mana."""
+    player.mana = min(
+        player.max_mana,
+        player.mana + 15
+    )
+
+    inventory.remove("Mana Potion")
+    typewriter("Recovered 15 Mana.")
+
+
+def cast_heal_spell(player, cost):
     """Cast Heal spell."""
+    if player.mana < cost:
+        typewriter(f"Not enough mana! You need {cost} mana but only have {player.mana}.")
+        return False
+    
+    player.mana -= cost
     player.hp = min(
         player.max_hp,
         player.hp + SPELLS["Heal"]["heal"]
     )
     typewriter(f"Recovered {SPELLS['Heal']['heal']} HP.")
+    return True
 
 
-def cast_holy_burst(enemy):
+def cast_holy_burst(player, enemy, cost):
     """Cast Holy Burst spell."""
+    if player.mana < cost:
+        typewriter(f"Not enough mana! You need {cost} mana but only have {player.mana}.")
+        return False
+    
+    player.mana -= cost
     damage = SPELLS["Holy Burst"]["damage"]
     enemy.hp -= damage
     typewriter(f"Holy Burst dealt {damage} damage!")
+    return True
 
 
-def cast_black_flame(enemy):
+def cast_black_flame(player, enemy, cost):
     """Cast Black Flame spell."""
+    if player.mana < cost:
+        typewriter(f"Not enough mana! You need {cost} mana but only have {player.mana}.")
+        return False
+    
+    player.mana -= cost
     damage = SPELLS["Black Flame"]["damage"]
     enemy.hp -= damage
     typewriter(f"Black Flame dealt {damage} damage.")
+    return True
 
 
 # Spell effect dispatcher - maps spell names to their effect functions
@@ -95,14 +124,25 @@ def cast_spell(player, enemy):
 
     typewriter("\nSpells")
     
-    selected_spell = get_menu_selection(player.spells, show_items=True)
+    # Display spells with mana costs
+    for i, spell in enumerate(player.spells, 1):
+        mana_cost = SPELLS[spell].get("cost", 0)
+        typewriter(f"{i}. {spell} (Cost: {mana_cost} mana)")
+    
+    selected_spell = get_menu_selection(player.spells, show_items=False)
     
     if selected_spell is None:
         return
 
+    # Get mana cost
+    mana_cost = SPELLS[selected_spell].get("cost", 0)
+
     # Execute spell effect if it exists
     if selected_spell in SPELL_EFFECTS:
-        SPELL_EFFECTS[selected_spell](player, enemy) if selected_spell == "Heal" else SPELL_EFFECTS[selected_spell](enemy)
+        if selected_spell == "Heal":
+            SPELL_EFFECTS[selected_spell](player, mana_cost)
+        else:
+            SPELL_EFFECTS[selected_spell](player, enemy, mana_cost)
 
 
 def inventory_menu(player):
@@ -121,6 +161,8 @@ def inventory_menu(player):
     # Item effect dispatcher
     if selected_item == "Health Potion":
         use_health_potion(player, player.inventory)
+    elif selected_item == "Mana Potion":
+        use_mana_potion(player, player.inventory)
 
 
 def speak(enemy):
@@ -144,7 +186,7 @@ def speak(enemy):
 
 
 def battle(player, enemy_name):
-    """Main battle loop with cached defense calculation."""
+    """Main battle loop with cached defense calculation and mana system."""
     enemy = Enemy(enemy_name)
     defending = False
 
@@ -153,7 +195,8 @@ def battle(player, enemy_name):
         print("\n-------------------")
         print(enemy.name)
         typewriter(f"Enemy HP: {enemy.hp}")
-        typewriter(f"Your HP: {player.hp}")
+        typewriter(f"Your HP: {player.hp}/{player.max_hp}")
+        typewriter(f"Your Mana: {player.mana}/{player.max_mana}")
 
         choice_input = input("""
 1. Attack
