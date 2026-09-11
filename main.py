@@ -18,83 +18,84 @@ elpis = False
 holis = False
 cognifis = False
 
-typewriter(r"""This is a world of sinners and saints.
+if __name__ == "__main__":
+    typewriter(r"""This is a world of sinners and saints.
 
-With the dawn of the Seven,
-people began to wield powers greater than their own,
-and in doing so lost their humanity
-and became sinners.
+    With the dawn of the Seven,
+    people began to wield powers greater than their own,
+    and in doing so lost their humanity
+    and became sinners.
 
-They expected great reward
-for their devotion to the Descended One.
+    They expected great reward
+    for their devotion to the Descended One.
 
-However, all sinners save for the Seven
-were cast into the pits of the Great Below.
+    However, all sinners save for the Seven
+    were cast into the pits of the Great Below.
 
-Because of this, new subjects were acquired.
+    Because of this, new subjects were acquired.
 
-And then cast into the Great Below.
+    And then cast into the Great Below.
 
-And again.
+    And again.
 
-And again, every thousand years...
+    And again, every thousand years...
 
-This cycle of sin and retribution
-has endured for as long as any can remember.
+    This cycle of sin and retribution
+    has endured for as long as any can remember.
 
-It is the norm for sinners.
-It is the norm for saints.
+    It is the norm for sinners.
+    It is the norm for saints.
 
-Then three more came.
+    Then three more came.
 
-Elpis.
+    Elpis.
 
-Cognifis.
+    Cognifis.
 
-Holis.
+    Holis.
 
-The Three Virtues.
+    The Three Virtues.
 
-And all came to follow them.
+    And all came to follow them.
 
-All except seven sinners.
+    All except seven sinners.
 
-Seven who would not bow.
+    Seven who would not bow.
 
-Seven who would rather be damned.
+    Seven who would rather be damned.
 
-And now there are Eight.
+    And now there are Eight.
 
-And thus the question arises...
+    And thus the question arises...
 
-Art thou a sinner?
+    Art thou a sinner?
 
-Or art thou ours?""")
+    Or art thou ours?""")
 
-player = Player()
+    player = Player()
 
-answer = choice(
-    "Narrator",
-    "You're on a path that goes towards the pits of the Great Below.",
-    "Retreat!",
-    "Descend..."
-)
+    answer = choice(
+       "Narrator",
+       "You're on a path that goes towards the pits of the Great Below.",
+       "Retreat!",
+       "Descend..."
+    )
 
-if answer == "Descend...":
-    say("Narrator", "Are you sure?\n\n"
-    "Choosing such choices is an object of despair.")
-    
-    say("Beckoner",
-    "No.\n"
-    "There are debts yet unpaid.\n"
-    "Things yet ungathered.\n"
-    "Seven artifacts necessary for entry.\n\n"
-    "But forget about those.\n\n"
-    "You won't be coming back until you're done here.")
-elif answer == "Retreat!":
-    say("Narrator", "Good choice... You seem to be forgetting something in the pit, though.\n"
-    "Nevertheless, godspeed, friend.\n"
-    "Descend out of this dark madness!")
-say("Narrator", "Once you descended out of the cycle of dreams,\n"
-    "you woke up in your room with a strange feeling of deja vu. Suddenly, a creature from the pit attacks you!")
-battle(player,"Lesser Sinner")
+    if answer == "Descend...":
+        say("Narrator", "Are you sure?\n\n"
+        "Choosing such choices is an object of despair.")
+
+        say("Beckoner",
+        "No.\n"
+        "There are debts yet unpaid.\n"
+        "Things yet ungathered.\n"
+        "Seven artifacts necessary for entry.\n\n"
+        "But forget about those.\n\n"
+        "You won't be coming back until you're done here.")
+    elif answer == "Retreat!":
+        say("Narrator", "Good choice... You seem to be forgetting something in the pit, though.\n"
+        "Nevertheless, godspeed, friend.\n"
+        "Descend out of this dark madness!")
+    say("Narrator", "Once you descended out of the cycle of dreams,\n"
+        "you woke up in your room with a strange feeling of deja vu. Suddenly, a creature from the pit attacks you!")
+    battle(player,"Lesser Sinner")
