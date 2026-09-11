@@ -14,4 +14,7 @@ class Player:
 
         self.spells = []
 
+        self.mana = 30
+        self.max_mana = 30
+
         self.inventory = ["Health Potion"]
