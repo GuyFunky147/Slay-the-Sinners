@@ -2,9 +2,7 @@ from function_defs.helper_functions import typewriter, say, choice
 from equippables.armors import ARMOR
 from equippables.weapons import WEAPONS
 from equippables.spells import SPELLS
-from enemies import ENEMIES
-from
-
+from enemies import ENEMIES, Enemy
 
 def attack(attacker, defender):
 
