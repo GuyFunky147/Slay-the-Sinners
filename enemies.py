@@ -1,3 +1,12 @@
+class Enemy:
+    def __init__(self, enemy_name):
+        enemy = ENEMIES[enemy_name]
+
+        self.name = enemy_name
+       self.hp = enemy["hp"]
+        self.atk = enemy["atk"]
+        self.defense = enemy["def"]
+
 ENEMIES = {
 
     "Lesser Sinner": {

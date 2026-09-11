@@ -18,33 +18,6 @@ elpis = False
 holis = False
 cognifis = False
 
-class Player:
-    def __init__(self):
-        self.hp = 50
-        self.max_hp = 50
-
-        self.atk = 10
-        self.defense = 5
-
-        self.sin = 0
-        self.saint = 0
-
-        self.weapon = None
-        self.armor = None
-
-        self.spells = []
-
-        self.inventory = ["Health Potion"]
-
-class Enemy:
-    def __init__(self, enemy_name):
-        enemy = ENEMIES[enemy_name]
-
-        self.name = enemy_name
-        self.hp = enemy["hp"]
-        self.atk = enemy["atk"]
-        self.defense = enemy["def"]
-
 typewriter(r"""This is a world of sinners and saints.
 
 With the dawn of the Seven,
@@ -107,7 +80,7 @@ answer = choice(
     "Descend..."
 )
 
-if answer == "2":
+if answer == "Descend...":
     say("Narrator", "Are you sure?\n\n"
     "Choosing such choices is an object of despair.")
     
@@ -118,10 +91,10 @@ if answer == "2":
     "Seven artifacts necessary for entry.\n\n"
     "But forget about those.\n\n"
     "You won't be coming back until you're done here.")
-if answer == "1":
+elif answer == "Retreat!":
     say("Narrator", "Good choice... You seem to be forgetting something in the pit, though.\n"
     "Nevertheless, godspeed, friend.\n"
     "Descend out of this dark madness!")
 say("Narrator", "Once you descended out of the cycle of dreams,\n"
-    "you woke up in your room with a strange feeling of deja vu. Suddenly, a creature attacks you!")
+    "you woke up in your room with a strange feeling of deja vu. Suddenly, a creature from the pit attacks you!")
 battle(player,"Lesser Sinner")
