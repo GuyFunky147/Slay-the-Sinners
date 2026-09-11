@@ -7,6 +7,7 @@ from function_defs.helper_functions import typewriter, say, choice
 from function_defs.story_functions import awaken_relics, can_resist_reset
 from function_defs.save_load_defs import save_game, load_game
 from function_defs.equipment_defs import equipment_menu
+from function_defs.mana_recovery import restore_mana_meditation, restore_mana_potion, full_rest, partial_rest, view_mana_status
 from player import Player
 
 seed = 0000000
@@ -103,18 +104,45 @@ if __name__ == "__main__":
     
     # Main game loop
     while True:
+        typewriter(f"\nHP: {player.hp}/{player.max_hp} | Mana: {player.mana}/{player.max_mana}")
+        
         menu_choice = choice(
             "Beckoner",
             "What would you like to do?",
             "Prepare for Battle",
             "Check Equipment",
-            "Rest"
+            "Restore Mana",
+            "Rest",
+            "View Status"
         )
         
         if menu_choice == "Prepare for Battle":
             battle(player, "Lesser Sinner")
         elif menu_choice == "Check Equipment":
             equipment_menu(player)
+        elif menu_choice == "Restore Mana":
+            mana_choice = choice(
+                "Beckoner",
+                "How would you like to restore your mana?",
+                "Meditate (10 mana)",
+                "Use Mana Potion (15 mana)",
+                "Back"
+            )
+            if mana_choice == "Meditate (10 mana)":
+                restore_mana_meditation(player, 10)
+            elif mana_choice == "Use Mana Potion (15 mana)":
+                restore_mana_potion(player, player.inventory)
         elif menu_choice == "Rest":
-            say("Narrator", "You rest for a moment, recovering your strength.")
-            player.hp = player.max_hp
+            rest_choice = choice(
+                "Beckoner",
+                "How would you like to rest?",
+                "Full Rest (recover all HP and Mana)",
+                "Partial Rest (recover half HP and Mana)",
+                "Back"
+            )
+            if rest_choice == "Full Rest (recover all HP and Mana)":
+                full_rest(player)
+            elif rest_choice == "Partial Rest (recover half HP and Mana)":
+                partial_rest(player)
+        elif menu_choice == "View Status":
+            view_mana_status(player)
