@@ -1,11 +1,13 @@
 from function_defs.helper_functions import typewriter, say, choice
+from function_defs.menu_utils import get_menu_selection, get_menu_index
 from equippables.armors import ARMOR
 from equippables.weapons import WEAPONS
 from equippables.spells import SPELLS
 from enemies import ENEMIES, Enemy
 
-def attack(attacker, defender):
 
+def attack(attacker, defender):
+    """Basic attack without weapon."""
     damage = max(
         1,
         attacker.atk - defender.defense
@@ -17,7 +19,7 @@ def attack(attacker, defender):
 
 
 def attack_with_weapon(player, enemy):
-
+    """Attack using equipped weapon."""
     weapon_damage = 0
 
     if player.weapon:
@@ -32,8 +34,9 @@ def attack_with_weapon(player, enemy):
 
     typewriter(f"You dealt {damage} damage.")
 
-def get_player_defense(player):
 
+def get_player_defense(player):
+    """Calculate total defense including equipped armor."""
     defense = player.defense
 
     if player.armor:
@@ -41,121 +44,108 @@ def get_player_defense(player):
 
     return defense
 
-def inventory_menu(player):
 
+def use_health_potion(player, inventory):
+    """Use a health potion to restore HP."""
+    player.hp = min(
+        player.max_hp,
+        player.hp + 25
+    )
+
+    inventory.remove("Health Potion")
+    typewriter("Recovered 25 HP.")
+
+
+def cast_heal_spell(player):
+    """Cast Heal spell."""
+    player.hp = min(
+        player.max_hp,
+        player.hp + SPELLS["Heal"]["heal"]
+    )
+    typewriter(f"Recovered {SPELLS['Heal']['heal']} HP.")
+
+
+def cast_holy_burst(enemy):
+    """Cast Holy Burst spell."""
+    damage = SPELLS["Holy Burst"]["damage"]
+    enemy.hp -= damage
+    typewriter(f"Holy Burst dealt {damage} damage!")
+
+
+def cast_black_flame(enemy):
+    """Cast Black Flame spell."""
+    damage = SPELLS["Black Flame"]["damage"]
+    enemy.hp -= damage
+    typewriter(f"Black Flame dealt {damage} damage.")
+
+
+# Spell effect dispatcher - maps spell names to their effect functions
+SPELL_EFFECTS = {
+    "Heal": cast_heal_spell,
+    "Holy Burst": cast_holy_burst,
+    "Black Flame": cast_black_flame,
+}
+
+
+def cast_spell(player, enemy):
+    """Cast a spell from player's known spells."""
+    if len(player.spells) == 0:
+        typewriter("You know no spells.")
+        return
+
+    typewriter("\nSpells")
+    
+    selected_spell = get_menu_selection(player.spells, show_items=True)
+    
+    if selected_spell is None:
+        return
+
+    # Execute spell effect if it exists
+    if selected_spell in SPELL_EFFECTS:
+        SPELL_EFFECTS[selected_spell](player, enemy) if selected_spell == "Heal" else SPELL_EFFECTS[selected_spell](enemy)
+
+
+def inventory_menu(player):
+    """Display inventory and allow player to use items."""
     if len(player.inventory) == 0:
         typewriter("Your inventory is empty.")
         return
 
     typewriter("\nInventory")
 
-    for i, item in enumerate(player.inventory, 1):
-        typewriter(f"{i}. {item}")
-
-    choice = input("> ")
-
-    if not choice.isdigit():
+    selected_item = get_menu_selection(player.inventory, show_items=True)
+    
+    if selected_item is None:
         return
 
-    index = int(choice) - 1
-
-    if index < 0 or index >= len(player.inventory):
-        return
-
-    item = player.inventory[index]
-
-    if item == "Health Potion":
-
-        player.hp = min(
-            player.max_hp,
-            player.hp + 25
-        )
-
-        player.inventory.remove(item)
-
-        typewriter("Recovered 25 HP.")
-
-
-def cast_spell(player, enemy):
-
-    if len(player.spells) == 0:
-        print("You know no spells.")
-        return
-
-    typewriter("\nSpells")
-
-    for i, spell in enumerate(player.spells, 1):
-        typewriter(f"{i}. {spell}")
-
-    choice = input("> ")
-
-    if not choice.isdigit():
-        return
-
-    index = int(choice) - 1
-
-    if index < 0 or index >= len(player.spells):
-        return
-
-    spell = player.spells[index]
-
-    if spell == "Heal":
-
-        player.hp = min(
-            player.max_hp,
-            player.hp + 20
-        )
-
-        typewriter("Recovered 20 HP.")
-
-    elif spell == "Holy Burst":
-
-        enemy.hp -= 30
-
-        typewriter("Holy Burst dealt 30 damage!")
-
-    elif spell == "Black Flame":
-
-        damage = SPELLS["Black Flame"]["damage"]
-
-        enemy.hp -= damage
-
-        typewriter(f"Black Flame dealt {damage} damage.")
+    # Item effect dispatcher
+    if selected_item == "Health Potion":
+        use_health_potion(player, player.inventory)
 
 
 def speak(enemy):
-
+    """Have a conversation with an enemy."""
     enemy_data = ENEMIES[enemy.name]
 
     if "speak" not in enemy_data:
-        print("They refuse to answer.")
+        typewriter("They refuse to answer.")
         return
 
     options = list(enemy_data["speak"].keys())
 
     typewriter("\nSpeak")
 
-    for i, option in enumerate(options, 1):
-        typewriter(f"{i}. {option}")
-
-    choice = input("> ")
-
-    if not choice.isdigit():
+    selected_option = get_menu_selection(options, show_items=True)
+    
+    if selected_option is None:
         return
 
-    index = int(choice) - 1
+    typewriter(enemy_data["speak"][selected_option])
 
-    if index < 0 or index >= len(options):
-        return
-
-    option = options[index]
-
-    typewriter(enemy_data["speak"][option])
 
 def battle(player, enemy_name):
-
+    """Main battle loop with cached defense calculation."""
     enemy = Enemy(enemy_name)
-
     defending = False
 
     while player.hp > 0 and enemy.hp > 0:
@@ -165,7 +155,7 @@ def battle(player, enemy_name):
         typewriter(f"Enemy HP: {enemy.hp}")
         typewriter(f"Your HP: {player.hp}")
 
-        choice = input("""
+        choice_input = input("""
 1. Attack
 2. Defend
 3. Speak
@@ -173,38 +163,35 @@ def battle(player, enemy_name):
 5. Inventory
 > """)
 
-        if choice == "1":
-
+        if choice_input == "1":
             attack_with_weapon(player, enemy)
 
-        elif choice == "2":
-
+        elif choice_input == "2":
             defending = True
             typewriter("You brace yourself.")
 
-        elif choice == "3":
-
+        elif choice_input == "3":
             speak(enemy)
 
-        elif choice == "4":
-
+        elif choice_input == "4":
             cast_spell(player, enemy)
 
-        elif choice == "5":
-
+        elif choice_input == "5":
             inventory_menu(player)
 
         if enemy.hp <= 0:
             break
 
+        # Cache player defense for this turn
+        player_defense = get_player_defense(player)
+        
         enemy_damage = max(
             1,
-            enemy.atk - get_player_defense(player)
+            enemy.atk - player_defense
         )
 
         if defending:
-
-            enemy_damage -= get_player_defense(player)
+            enemy_damage -= player_defense
 
             if enemy_damage < 1:
                 enemy_damage = 0
@@ -218,16 +205,13 @@ def battle(player, enemy_name):
         )
 
     if player.hp <= 0:
-
         typewriter(f"\nYou were slain by {enemy.name}.")
         return False
 
     typewriter(f"\nYou defeated {enemy.name}.")
 
     for drop in ENEMIES[enemy_name]["drops"]:
-
         player.inventory.append(drop)
-
         typewriter(f"You obtained: {drop}")
 
     return True
