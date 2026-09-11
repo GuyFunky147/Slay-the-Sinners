@@ -3,7 +3,7 @@ class Enemy:
         enemy = ENEMIES[enemy_name]
 
         self.name = enemy_name
-       self.hp = enemy["hp"]
+        self.hp = enemy["hp"]
         self.atk = enemy["atk"]
         self.defense = enemy["def"]
 
