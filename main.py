@@ -6,7 +6,9 @@ from battle_stuff import attack, attack_with_weapon, get_player_defense, invento
 from function_defs.helper_functions import typewriter, say, choice
 from function_defs.story_functions import awaken_relics, can_resist_reset
 from function_defs.save_load_defs import save_game, load_game
+from function_defs.equipment_defs import equipment_menu
 from player import Player
+
 seed = 0000000
 
 ceremonial_knife = False
@@ -98,4 +100,21 @@ if __name__ == "__main__":
         "Descend out of this dark madness!")
     say("Narrator", "Once you descended out of the cycle of dreams,\n"
         "you woke up in your room with a strange feeling of deja vu. Suddenly, a creature from the pit attacks you!")
-    battle(player,"Lesser Sinner")
+    
+    # Main game loop
+    while True:
+        menu_choice = choice(
+            "Beckoner",
+            "What would you like to do?",
+            "Prepare for Battle",
+            "Check Equipment",
+            "Rest"
+        )
+        
+        if menu_choice == "Prepare for Battle":
+            battle(player, "Lesser Sinner")
+        elif menu_choice == "Check Equipment":
+            equipment_menu(player)
+        elif menu_choice == "Rest":
+            say("Narrator", "You rest for a moment, recovering your strength.")
+            player.hp = player.max_hp
